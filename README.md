@@ -33,4 +33,4 @@ flutter pub get
 flutter run
 ```
 ## 📱 Try app on browser
-To test the application on different devices, use [this link]()
+use [this link](https://appetize.io/embed/b_aw4bp5wrmkfpcxvczc5zphzkuu)
