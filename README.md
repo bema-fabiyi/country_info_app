@@ -5,18 +5,18 @@ A Flutter app which allows users to view a list of countries and their informati
 ## ✨ Features
 - List of countries from API
 - Country search
-- Details about selected country
+- Details about the selected country
 - Dark theme
 
 
-## ⚙️ Dependecies & Packages
+## ⚙️ Dependencies & Packages
 - provider for state management
 - flutter_screenutil for responsiveness
 - http for API calls
 - [Country API](https://restcountries.com/v3.1/all)
 - intl for number formatting
 - grouped_list for grouping countries alphabetically
-- font used in this project is Axiforma
+- The font used in this project is Axiforma
 
 ## 🚀 Setup Instructions
 1. Clone the Repository
