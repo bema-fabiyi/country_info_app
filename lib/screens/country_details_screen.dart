@@ -43,39 +43,19 @@ class CountryDetailsScreen extends StatelessWidget {
               CountryInfoItem(title: 'Capital:', info: " ${country.capital}"),
               const SizedBox(height: 4),
               CountryInfoItem(
-                title: 'Motto:',
-                info: " ${country.motto}",
-              ),
-              const SizedBox(height: 24),
-              CountryInfoItem(
                   title: 'Official Language:',
                   info: " ${country.languages.join(', ')}"),
-              const SizedBox(height: 4),
-              CountryInfoItem(
-                  title: 'Ethnic Group:',
-                  info: " ${country.ethnicGroups.join(', ')}"),
-              const SizedBox(height: 4),
-              CountryInfoItem(
-                  title: 'Religion:', info: " ${country.religions.join(', ')}"),
-              const SizedBox(height: 4),
-              CountryInfoItem(
-                  title: 'Government:', info: " ${country.government}"),
               const SizedBox(height: 24),
               CountryInfoItem(
-                  title: 'Independence:', info: " ${country.independent}"),
+                  title: 'Independent:', info: " ${country.independent}"),
               const SizedBox(height: 4),
               CountryInfoItem(title: 'Area:', info: " ${country.area} km²"),
               const SizedBox(height: 4),
               CountryInfoItem(title: 'Currency:', info: " ${country.currency}"),
               const SizedBox(height: 4),
-              CountryInfoItem(title: 'GDP:', info: " ${country.gdp}"),
-              const SizedBox(height: 24),
               CountryInfoItem(
                   title: 'Time Zone:', info: " ${country.timeZone}"),
-              const SizedBox(height: 4),
-              CountryInfoItem(
-                  title: 'Date Format:', info: " ${country.dateFormat}"),
-              const SizedBox(height: 4),
+              const SizedBox(height: 24),
               CountryInfoItem(
                   title: 'Dialing Code:', info: " ${country.dialingCode}"),
               const SizedBox(height: 4),

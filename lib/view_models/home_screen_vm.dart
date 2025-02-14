@@ -18,15 +18,22 @@ class HomeScreenVm extends ChangeNotifier {
   }
 
   Future<void> fetchCountries() async {
-    final response = await http.get(url);
+    try {
+      final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(response.body);
-      _allCountries = data.map((json) => Country.fromJson(json)).toList();
-      _filteredCountries = List.from(_allCountries);
+      if (response.statusCode == 200) {
+        List<dynamic> data = jsonDecode(response.body);
+        _allCountries = data.map((json) => Country.fromJson(json)).toList();
+        _filteredCountries = List.from(_allCountries);
+        notifyListeners();
+      } else {
+        throw Exception('Failed to load country data');
+      }
+    } catch (e) {
+      print("Error fetching countries: $e");
+    } finally {
+      _isLoading = false;
       notifyListeners();
-    } else {
-      throw Exception('Failed to load country data');
     }
   }
 

@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                   width: 98.w,
                   height: 24.h,
                   themeProvider.isDarkMode
-                      ? 'assets/explore_light.png'
+                      ? 'assets/logo.png'
                       : "assets/ex_logo.png",
                 );
               },
@@ -54,13 +54,31 @@ class HomeScreen extends StatelessWidget {
               children: [
                 TextField(
                   controller: searchController,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
                   decoration: InputDecoration(
                     hintText: 'Search Country',
-                    prefixIcon: const Icon(Icons.search),
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    filled: true,
+                    fillColor: Theme.of(context).colorScheme.tertiary,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                     ),
                   ),
                   onChanged: (query) {
@@ -73,7 +91,7 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 Expanded(
                   child: value.filteredCountries.isEmpty
-                      ? const Center(child: Text("No countries found"))
+                      ? const Center(child: CircularProgressIndicator())
                       : GroupedListView<Country, String>(
                           elements: value.filteredCountries,
                           groupBy: (country) => country.name[0].toUpperCase(),

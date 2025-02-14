@@ -7,7 +7,8 @@ ThemeData lightMode = ThemeData(
   colorScheme: ColorScheme.light(
       surface: Colors.white,
       primary: AppColor.gray900,
-      secondary: AppColor.gray500),
+      secondary: AppColor.gray500,
+      tertiary: AppColor.gray100),
 );
 ThemeData darkMode = ThemeData(
   brightness: Brightness.dark,
@@ -16,5 +17,6 @@ ThemeData darkMode = ThemeData(
     surface: AppColor.darkBlue,
     primary: AppColor.gray100,
     secondary: AppColor.gray400,
+    tertiary: Color(0x3398A2B3),
   ),
 );
