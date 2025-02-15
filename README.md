@@ -35,4 +35,4 @@ flutter pub get
 flutter run
 ```
 ## 📱 Try app on browser
-use [this link](https://appetize.io/embed/b_6lr2v6oztoz2teoosaavkinhye)
+use [this link](https://appetize.io/embed/b_5olrusj5mfc25u7ceaepubpjsi)
