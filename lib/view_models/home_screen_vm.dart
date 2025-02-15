@@ -60,6 +60,9 @@ class HomeScreenVm extends ChangeNotifier {
       MaterialPageRoute(
         builder: (context) => CountryDetailsScreen(country: country),
       ),
-    );
+    ).then((_) {
+      _filteredCountries = List.from(_allCountries);
+      notifyListeners();
+    });
   }
 }
