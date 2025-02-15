@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:country_info_app/models/country.dart';
 import 'package:country_info_app/screens/country_details_screen.dart';
+import 'package:country_info_app/view_models/country_details_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class HomeScreenVm extends ChangeNotifier {
   final Uri url = Uri.parse("https://restcountries.com/v3.1/all");
@@ -39,7 +41,8 @@ class HomeScreenVm extends ChangeNotifier {
 
   void searchCountries(String query) {
     if (query.isEmpty) {
-      _filteredCountries = List.from(_allCountries);
+      fetchCountries();
+      // _filteredCountries = List.from(_allCountries);
     } else {
       _filteredCountries = _allCountries
           .where((country) =>
@@ -50,6 +53,8 @@ class HomeScreenVm extends ChangeNotifier {
   }
 
   void showDetails(BuildContext context, Country country) {
+    Provider.of<CountryDetailsVm>(context, listen: false).resetIndex();
+
     Navigator.push(
       context,
       MaterialPageRoute(

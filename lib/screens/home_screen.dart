@@ -57,6 +57,7 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
+                  onTapOutside: (event) => FocusScope.of(context).unfocus(),
                   decoration: InputDecoration(
                     hintText: 'Search Country',
                     hintStyle: TextStyle(

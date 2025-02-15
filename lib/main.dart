@@ -1,5 +1,6 @@
 import 'package:country_info_app/screens/home_screen.dart';
 import 'package:country_info_app/theme/theme_provider.dart';
+import 'package:country_info_app/view_models/country_details_vm.dart';
 import 'package:country_info_app/view_models/home_screen_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,8 @@ void main() {
       providers: [
         ChangeNotifierProvider<ThemeProvider>(create: (ctx) => ThemeProvider()),
         ChangeNotifierProvider<HomeScreenVm>(create: (ctx) => HomeScreenVm()),
+        ChangeNotifierProvider<CountryDetailsVm>(
+            create: (ctx) => CountryDetailsVm()),
       ],
       child: const MyApp(),
     ),

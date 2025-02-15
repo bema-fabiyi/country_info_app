@@ -4,7 +4,8 @@ class Country {
   final String region;
   final String capital;
   final List<String> languages;
-
+  final Maps map;
+  final String coatOfArms;
   final String independent;
   final double area;
   final String currency;
@@ -26,6 +27,8 @@ class Country {
     required this.dialingCode,
     required this.driverSide,
     required this.flag,
+    required this.map,
+    required this.coatOfArms,
   });
 
   factory Country.fromJson(Map<String, dynamic> json) {
@@ -51,6 +54,28 @@ class Country {
           (json['idd']?['suffixes']?.first ?? ''),
       driverSide: json['car']?['side'] ?? 'Unknown',
       flag: json['flags']?['png'] ?? '',
+      coatOfArms: json['coatOfArms']?['png'] ?? 'No Coat Of Arm',
+      map: Maps.fromJson(json["maps"]),
     );
   }
+}
+
+class Maps {
+  String googleMaps;
+  String openStreetMaps;
+
+  Maps({
+    required this.googleMaps,
+    required this.openStreetMaps,
+  });
+
+  factory Maps.fromJson(Map<String, dynamic> json) => Maps(
+        googleMaps: json["googleMaps"],
+        openStreetMaps: json["openStreetMaps"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "googleMaps": googleMaps,
+        "openStreetMaps": openStreetMaps,
+      };
 }
