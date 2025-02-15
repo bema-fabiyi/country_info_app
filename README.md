@@ -15,8 +15,10 @@ A Flutter app which allows users to view a list of countries and their informati
 - http for API calls
 - [Country API](https://restcountries.com/v3.1/all)
 - intl for number formatting
-- grouped_list for grouping countries alphabetically
+- grouped_list to group countries alphabetically
 - The font used in this project is Axiforma
+- carousel_slider to display selected country's flag and coat of arms
+- smooth_page_indicator to show the current page in the carousel
 
 ## 🚀 Setup Instructions
 1. Clone the Repository
