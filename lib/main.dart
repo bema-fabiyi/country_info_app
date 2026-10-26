@@ -2,11 +2,15 @@ import 'package:country_info_app/screens/home_screen.dart';
 import 'package:country_info_app/theme/theme_provider.dart';
 import 'package:country_info_app/view_models/country_details_vm.dart';
 import 'package:country_info_app/view_models/home_screen_vm.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
+
   runApp(
     MultiProvider(
       providers: [

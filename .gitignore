@@ -33,6 +33,11 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Local API credentials
+.env
+.env.*
+!.env.example
+
 # Symbolication related
 app.*.symbols
 

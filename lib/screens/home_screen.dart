@@ -91,73 +91,102 @@ class HomeScreen extends StatelessWidget {
                 // Row(),
                 const SizedBox(height: 16),
                 Expanded(
-                  child: value.filteredCountries.isEmpty
+                  child: value.isLoading
                       ? const Center(child: CircularProgressIndicator())
-                      : GroupedListView<Country, String>(
-                          elements: value.filteredCountries,
-                          groupBy: (country) => country.name[0].toUpperCase(),
-                          groupSeparatorBuilder: (value) => Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child: Text(
-                              value,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                            ),
-                          ),
-                          itemBuilder: (ctx, country) {
-                            return GestureDetector(
-                              onTap: () {
-                                value.showDetails(ctx, country);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Image.network(
-                                        country.flag,
-                                        width: 40,
-                                        height: 40,
-                                        fit: BoxFit.fill,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return const Icon(Icons.broken_image,
-                                              size: 40, color: Colors.grey);
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          country.name,
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          country.capital,
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                      : value.errorMessage != null
+                          ? Center(
+                              child: Text(
+                                value.errorMessage!,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
-                            );
-                          },
-                        ),
+                            )
+                          : value.filteredCountries.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    'No countries found.',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                  ),
+                                )
+                              : GroupedListView<Country, String>(
+                                  elements: value.filteredCountries,
+                                  groupBy: (country) =>
+                                      country.name[0].toUpperCase(),
+                                  groupSeparatorBuilder: (value) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                      ),
+                                    ),
+                                  ),
+                                  itemBuilder: (ctx, country) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        value.showDetails(ctx, country);
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20),
+                                        child: Row(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: Image.network(
+                                                country.flag,
+                                                width: 40,
+                                                height: 40,
+                                                fit: BoxFit.fill,
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return const Icon(
+                                                      Icons.broken_image,
+                                                      size: 40,
+                                                      color: Colors.grey);
+                                                },
+                                              ),
+                                            ),
+                                            const SizedBox(width: 16),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  country.name,
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 2),
+                                                Text(
+                                                  country.capital,
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                 ),
               ],
             ),

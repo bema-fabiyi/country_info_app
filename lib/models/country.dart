@@ -5,7 +5,6 @@ class Country {
   final String capital;
   final List<String> languages;
   final Maps map;
-  final String coatOfArms;
   final String independent;
   final double area;
   final String currency;
@@ -28,37 +27,66 @@ class Country {
     required this.driverSide,
     required this.flag,
     required this.map,
-    required this.coatOfArms,
   });
 
   factory Country.fromJson(Map<String, dynamic> json) {
+    final names = _jsonObject(json['names']);
+    final capitals =
+        _jsonList(json['capitals']).whereType<Map<String, dynamic>>().toList();
+    String? capital;
+    for (final candidate in capitals) {
+      if (_jsonObject(candidate['attributes'])['primary'] == true) {
+        capital = candidate['name'] as String?;
+        break;
+      }
+    }
+    capital ??= capitals.isNotEmpty ? capitals.first['name'] as String? : null;
+    final currencies = _jsonList(json['currencies'])
+        .whereType<Map<String, dynamic>>()
+        .toList();
+    final languages = _jsonList(json['languages'])
+        .whereType<Map<String, dynamic>>()
+        .map((language) => language['name'])
+        .whereType<String>()
+        .toList();
+    final callingCodes = _jsonList(json['calling_codes'])
+        .whereType<String>()
+        .map((code) => '+$code')
+        .toList();
+    final timeZones = _jsonList(json['timezones']).whereType<String>();
+    final area = _jsonObject(json['area'])['kilometers'];
+    final classification = _jsonObject(json['classification']);
+    final cars = _jsonObject(json['cars']);
+    final flag = _jsonObject(json['flag']);
+    final links = _jsonObject(json['links']);
+
     return Country(
-      name: json['name']['common'] ?? 'Unknown',
-      population: json['population'] ?? 0,
-      region: json['region'] ?? 'Unknown',
-      capital: (json['capital'] as List?)?.first ?? 'Unknown',
-      languages: (json['languages'] as Map?)
-              ?.values
-              .map((e) => e.toString())
-              .toList() ??
-          [],
-      independent: json['independent'] != null
-          ? (json['independent'] ? 'Yes' : 'No')
+      name: names['common'] as String? ?? 'Unknown',
+      population: (json['population'] as num?)?.toInt() ?? 0,
+      region: json['region'] as String? ?? 'Unknown',
+      capital: capital ?? 'Unknown',
+      languages: languages,
+      independent: classification['sovereign'] is bool
+          ? (classification['sovereign'] as bool ? 'Yes' : 'No')
           : 'Unknown',
-      area: json['area']?.toDouble() ?? 0.0,
-      currency: json['currencies'] != null
-          ? json['currencies'].keys.first
+      area: (area as num?)?.toDouble() ?? 0.0,
+      currency: currencies.isNotEmpty
+          ? currencies.first['code'] as String? ?? 'Unknown'
           : 'Unknown',
-      timeZone: (json['timezones'] as List?)?.first ?? 'Unknown',
-      dialingCode: (json['idd']?['root'] ?? '') +
-          (json['idd']?['suffixes']?.first ?? ''),
-      driverSide: json['car']?['side'] ?? 'Unknown',
-      flag: json['flags']?['png'] ?? '',
-      coatOfArms: json['coatOfArms']?['png'] ?? 'No Coat Of Arm',
-      map: Maps.fromJson(json["maps"]),
+      timeZone: timeZones.isNotEmpty ? timeZones.first : 'Unknown',
+      dialingCode:
+          callingCodes.isNotEmpty ? callingCodes.join(', ') : 'Unknown',
+      driverSide: cars['driving_side'] as String? ?? 'Unknown',
+      flag: flag['url_png'] as String? ?? '',
+      map: Maps.fromJson(links),
     );
   }
 }
+
+Map<String, dynamic> _jsonObject(Object? value) =>
+    value is Map<String, dynamic> ? value : const {};
+
+List<dynamic> _jsonList(Object? value) => value is List ? value : const [];
 
 class Maps {
   String googleMaps;
@@ -70,12 +98,12 @@ class Maps {
   });
 
   factory Maps.fromJson(Map<String, dynamic> json) => Maps(
-        googleMaps: json["googleMaps"],
-        openStreetMaps: json["openStreetMaps"],
+        googleMaps: json["google_maps"] as String? ?? '',
+        openStreetMaps: json["open_street_maps"] as String? ?? '',
       );
 
   Map<String, dynamic> toJson() => {
-        "googleMaps": googleMaps,
-        "openStreetMaps": openStreetMaps,
+        "google_maps": googleMaps,
+        "open_street_maps": openStreetMaps,
       };
 }
