@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 class HomeScreenVm extends ChangeNotifier {
   static const _pageSize = 100;
+  static const _maxRequestAttempts = 3;
   static const _responseFields =
       'names.common,population,region,capitals.name,capitals.attributes.primary,'
       'languages.name,classification.sovereign,area.kilometers,currencies.code,'
@@ -53,10 +54,7 @@ class HomeScreenVm extends ChangeNotifier {
           'offset': '$offset',
           'response_fields': _responseFields,
         });
-        final response = await http.get(
-          url,
-          headers: {'Authorization': 'Bearer $apiKey'},
-        );
+        final response = await _getCountryPage(url, apiKey);
         final decoded = jsonDecode(response.body);
 
         if (response.statusCode != 200) {
@@ -80,11 +78,47 @@ class HomeScreenVm extends ChangeNotifier {
       _allCountries = countries;
       _filteredCountries = List.from(_allCountries);
     } catch (error) {
-      _errorMessage = error.toString();
+      _errorMessage = error is http.ClientException
+          ? 'The connection to REST Countries was interrupted. Please try again.'
+          : error.toString();
       debugPrint('Error fetching countries: $error');
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<http.Response> _getCountryPage(Uri url, String apiKey) async {
+    var attempt = 0;
+    while (true) {
+      attempt++;
+      try {
+        final response = await http.get(
+          url,
+          headers: {'Authorization': 'Bearer $apiKey'},
+        );
+
+        final shouldRetry =
+            response.statusCode == 429 || response.statusCode >= 500;
+        if (!shouldRetry || attempt >= _maxRequestAttempts) {
+          return response;
+        }
+
+        debugPrint(
+          'Countries API returned HTTP ${response.statusCode}; '
+          'retrying request ($attempt/$_maxRequestAttempts).',
+        );
+      } on http.ClientException catch (error) {
+        if (attempt >= _maxRequestAttempts) {
+          rethrow;
+        }
+        debugPrint(
+          'Countries API request failed: $error; '
+          'retrying ($attempt/$_maxRequestAttempts).',
+        );
+      }
+
+      await Future<void>.delayed(Duration(seconds: attempt));
     }
   }
 
